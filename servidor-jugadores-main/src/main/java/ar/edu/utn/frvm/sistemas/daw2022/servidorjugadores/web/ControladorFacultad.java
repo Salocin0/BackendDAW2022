@@ -29,10 +29,10 @@ public class ControladorFacultad {
     public Page<Facultad> getFacultades(Pageable pagina){
         return this.servicio.getFacultades(pagina);
     }
-
-    @RequestMapping(params={"filtro"})
-    public Iterable<Facultad> getFacultades(@RequestParam(name="filtro") String filtro){
-        return this.servicio.getFacultades(filtro);
+    
+    @RequestMapping(params={"nombre","codigo","codigoNumerico"})
+    public Iterable<Facultad> getFacultades(@RequestParam(name="nombre") String nombre,@RequestParam(name="codigo",required = false) String codigo,@RequestParam(name="codigoNumerico",required = false) String codigoNumerico){
+        return this.servicio.getFacultades(nombre, codigo, codigoNumerico);
     }
     //GET 1
     @RequestMapping(value = "/{id}")

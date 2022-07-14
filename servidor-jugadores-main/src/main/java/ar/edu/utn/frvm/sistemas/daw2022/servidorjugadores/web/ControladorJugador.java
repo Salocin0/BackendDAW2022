@@ -1,7 +1,10 @@
 package ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.web;
 
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.logica.ServicioJugador;
+import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Disciplina;
+import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Facultad;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Jugador;
+import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Nacionalidad;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +24,10 @@ public class ControladorJugador {
     public Iterable<Jugador> getJugadores(){
         return this.servicio.getJugadores();
     }
-    @RequestMapping(params={"filtro"})
-    public Iterable<Jugador> getJugadores(@RequestParam(name="filtro") String filtro){
-        return this.servicio.getJugadores(filtro);
+    //GET todas aplicando filtros
+    @RequestMapping(params={"nombre","disciplina","facultad","nacionalidad"})
+    public Iterable<Jugador> getJugadores(@RequestParam(name="nombre",required = false) String nombre, @RequestParam(name="disciplina",required = false) Disciplina disciplina, @RequestParam(name="facultad",required = false) Facultad facultad, @RequestParam(name="nacionalidad",required = false) Nacionalidad nacionalidad){
+        return this.servicio.getJugadores(nombre,disciplina,facultad,nacionalidad);
     }
     //GET 1
     @RequestMapping(value = "/{id}")

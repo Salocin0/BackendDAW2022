@@ -30,9 +30,18 @@ public class ServicioFacultad {
         return this.repositorio.findAll();
     }
 
-    public Iterable<Facultad> getFacultades(String filtro){
-        return this.repositorio.findByNombreIgnoreCaseContaining(filtro);
-    }
+    /*public Iterable<Facultad> getFacultadesNombre(String nombre){
+        return this.repositorio.findByNombreIgnoreCaseContaining(nombre);//agregar resto
+    }*/
+
+    /*public Iterable<Facultad> getFacultadesCodigo(String codigo){
+        return this.repositorio.findByCodigoIgnoreCaseContaining(codigo);//agregar resto
+    }*/
+
+    public Iterable<Facultad> getFacultades(String filtro, String codigo, String codigoNumerico){
+        return this.repositorio.findByNombreIgnoreCaseContainingAndCodigoIgnoreCaseContainingAndCodigoNumericoIgnoreCaseContaining(filtro, codigo, codigoNumerico);//agregar resto
+    } 
+
     public Page<Facultad> getFacultades(Pageable pagina){
         return this.repositorio.findAll(pagina);
     }

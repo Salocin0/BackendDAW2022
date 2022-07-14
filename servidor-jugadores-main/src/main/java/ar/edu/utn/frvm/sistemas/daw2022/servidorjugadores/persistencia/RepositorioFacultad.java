@@ -6,9 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RepositorioFacultad extends PagingAndSortingRepository<Facultad, Integer> {
-    Iterable<Facultad> findByNombre(String nombre);
-    Iterable<Facultad> findByNombreIgnoreCase(String nombre);
-    Iterable<Facultad> findByNombreContaining(String nombre);
-    Iterable<Facultad> findByNombreIgnoreCaseContaining(String nombre);
+    //Iterable<Facultad> findByNombreIgnoreCaseContaining(String nombre);
+    //Iterable<Facultad> findByCodigoIgnoreCaseContaining(String codigo);
+    Iterable<Facultad> findByNombreIgnoreCaseContainingAndCodigoIgnoreCaseContainingAndCodigoNumericoIgnoreCaseContaining(String nombre, String codigo, String codigoNumerico);//agregar resto
 
 }

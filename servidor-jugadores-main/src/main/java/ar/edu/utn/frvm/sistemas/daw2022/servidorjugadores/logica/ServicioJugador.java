@@ -1,6 +1,9 @@
 package ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.logica;
 
+import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Disciplina;
+import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Facultad;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Jugador;
+import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Nacionalidad;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.persistencia.RepositorioJugador;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +29,8 @@ public class ServicioJugador {
         return this.repositorio.findAll();
     }
 
-    public Iterable<Jugador> getJugadores(String filtro){
-        return this.repositorio.findByNombreIgnoreCaseContaining(filtro);
+    public Iterable<Jugador> getJugadores(String nombre, Disciplina disciplina, Facultad facultad, Nacionalidad nacionalidad){
+        return this.repositorio.findByNombreAndDisciplinaAndFacultadAndNacionalidad(nombre,disciplina,facultad,nacionalidad);
     }
 
     public Jugador guardar(Jugador f) {

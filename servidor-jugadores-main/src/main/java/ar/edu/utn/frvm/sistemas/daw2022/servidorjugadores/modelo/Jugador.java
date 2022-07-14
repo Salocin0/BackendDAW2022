@@ -55,13 +55,8 @@ public class Jugador {
         return this.apellido+ ", "+this.nombre;
     }
 
-    public String getFormatoFecheNac(){
-        return (this.fechaNacimiento.getDate()+1) +"/"+(this.fechaNacimiento.getMonth()+1)+"/"+(this.fechaNacimiento.getYear()+1900);
-    }
-
-    public Integer getEdad(){
-        Date fechaActual = new Date();
-        return fechaActual.getYear()-this.fechaNacimiento.getYear();//implementar bien
+    public String getFechaFormat(){
+        return ((this.fechaNacimiento.getDate()+1) +"/"+(this.fechaNacimiento.getMonth()+1)+"/"+(this.fechaNacimiento.getYear()+1900));
     }
 
 }
