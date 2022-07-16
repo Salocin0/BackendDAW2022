@@ -34,6 +34,21 @@ public class ControladorFacultad {
     public Iterable<Facultad> getFacultades(@RequestParam(name="nombre") String nombre,@RequestParam(name="codigo",required = false) String codigo,@RequestParam(name="codigoNumerico",required = false) String codigoNumerico){
         return this.servicio.getFacultades(nombre, codigo, codigoNumerico);
     }
+
+    @RequestMapping(params={"nombre","codigo","codigoNumerico"},value="nombre/{orden}")
+    public Iterable<Facultad> getFacultadesOrdenNombre(@RequestParam(name="nombre") String nombre,@RequestParam(name="codigo",required = false) String codigo,@RequestParam(name="codigoNumerico",required = false) String codigoNumerico,@PathVariable("orden") String orden){
+        return this.servicio.getFacultadesOrdenNombre(nombre, codigo, codigoNumerico,orden);
+    }
+
+    @RequestMapping(params={"nombre","codigo","codigoNumerico"},value = "codigo/{orden}")
+    public Iterable<Facultad> getFacultadesOrdenCodigo(@RequestParam(name="nombre") String nombre,@RequestParam(name="codigo",required = false) String codigo,@RequestParam(name="codigoNumerico",required = false) String codigoNumerico,@PathVariable("orden") String orden){
+        return this.servicio.getFacultadesOrdenCodigo(nombre, codigo, codigoNumerico,orden);
+    }
+
+    @RequestMapping(params={"nombre","codigo","codigoNumerico"},value = "codigoNumerico/{orden}")
+    public Iterable<Facultad> getFacultadesOrdenCodigoNumerico(@RequestParam(name="nombre") String nombre,@RequestParam(name="codigo",required = false) String codigo,@RequestParam(name="codigoNumerico",required = false) String codigoNumerico,@PathVariable("orden") String orden){
+        return this.servicio.getFacultadesOrdenCodigoNumerico(nombre, codigo, codigoNumerico,orden);
+    }
     //GET 1
     @RequestMapping(value = "/{id}")
     public Facultad getFactultad(@PathVariable("id") Integer id) {
