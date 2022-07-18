@@ -3,9 +3,11 @@ package ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.web;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.logica.ServicioFacultad;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Facultad;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -19,35 +21,28 @@ public class ControladorFacultad {
         this.servicio = servicio;
     }
 
+    @RequestMapping("/facultadesPage")
+    public ResponseEntity<Page<Facultad>> paginas(
+        @RequestParam(defaultValue="") String nombre,
+        @RequestParam(defaultValue="") String codigo,
+        @RequestParam(defaultValue="") String codigoNumerico,
+        @RequestParam(defaultValue="0") int page,
+        @RequestParam(defaultValue="5") int size,
+        @RequestParam(defaultValue="nombre") String order,
+        @RequestParam(defaultValue="true") boolean asc
+    ){
+        Page<Facultad> facultades=servicio.paginas(
+            nombre, codigo, codigoNumerico, PageRequest.of(page, size, Sort.by(order)));
+            if(!asc)
+                facultades=servicio.paginas(
+                    nombre, codigo, codigoNumerico, PageRequest.of(page, size, Sort.by(order).descending()));
+            return new ResponseEntity<Page<Facultad>>(facultades,HttpStatus.OK);
+    }
+
     //GET todas
     @RequestMapping
     public Iterable<Facultad> getFacultades(){
         return this.servicio.getFacultades();
-    }
-
-    @RequestMapping(params = {"page"})
-    public Page<Facultad> getFacultades(Pageable pagina){
-        return this.servicio.getFacultades(pagina);
-    }
-    
-    @RequestMapping(params={"nombre","codigo","codigoNumerico"})
-    public Iterable<Facultad> getFacultades(@RequestParam(name="nombre") String nombre,@RequestParam(name="codigo",required = false) String codigo,@RequestParam(name="codigoNumerico",required = false) String codigoNumerico){
-        return this.servicio.getFacultades(nombre, codigo, codigoNumerico);
-    }
-
-    @RequestMapping(params={"nombre","codigo","codigoNumerico"},value="nombre/{orden}")
-    public Iterable<Facultad> getFacultadesOrdenNombre(@RequestParam(name="nombre") String nombre,@RequestParam(name="codigo",required = false) String codigo,@RequestParam(name="codigoNumerico",required = false) String codigoNumerico,@PathVariable("orden") String orden){
-        return this.servicio.getFacultadesOrdenNombre(nombre, codigo, codigoNumerico,orden);
-    }
-
-    @RequestMapping(params={"nombre","codigo","codigoNumerico"},value = "codigo/{orden}")
-    public Iterable<Facultad> getFacultadesOrdenCodigo(@RequestParam(name="nombre") String nombre,@RequestParam(name="codigo",required = false) String codigo,@RequestParam(name="codigoNumerico",required = false) String codigoNumerico,@PathVariable("orden") String orden){
-        return this.servicio.getFacultadesOrdenCodigo(nombre, codigo, codigoNumerico,orden);
-    }
-
-    @RequestMapping(params={"nombre","codigo","codigoNumerico"},value = "codigoNumerico/{orden}")
-    public Iterable<Facultad> getFacultadesOrdenCodigoNumerico(@RequestParam(name="nombre") String nombre,@RequestParam(name="codigo",required = false) String codigo,@RequestParam(name="codigoNumerico",required = false) String codigoNumerico,@PathVariable("orden") String orden){
-        return this.servicio.getFacultadesOrdenCodigoNumerico(nombre, codigo, codigoNumerico,orden);
     }
     //GET 1
     @RequestMapping(value = "/{id}")
