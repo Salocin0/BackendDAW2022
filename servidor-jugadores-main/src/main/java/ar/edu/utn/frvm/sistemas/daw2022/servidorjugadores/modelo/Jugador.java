@@ -24,8 +24,10 @@ public class Jugador {
     @NonNull
     private Nacionalidad nacionalidad;
 
+    /* 
     @ManyToOne
     private Rol rol;
+    */
 
     @ManyToOne
     private Disciplina disciplina;

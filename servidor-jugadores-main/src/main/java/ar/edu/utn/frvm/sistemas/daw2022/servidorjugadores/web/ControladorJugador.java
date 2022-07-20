@@ -1,11 +1,14 @@
 package ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.web;
 
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.logica.ServicioJugador;
-import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Disciplina;
-import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Facultad;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Jugador;
-import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Nacionalidad;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -19,15 +22,29 @@ public class ControladorJugador {
         this.servicio = servicio;
     }
 
+    @RequestMapping("/jugadoresPage")
+    public ResponseEntity<Page<Jugador>> paginas(
+        @RequestParam(defaultValue="",required = false) String filtro,
+        @RequestParam(defaultValue="",required = false) String disciplina, 
+        @RequestParam(defaultValue="",required = false) String facultad, 
+        @RequestParam(defaultValue="",required = false) String nacionalidad,
+        @RequestParam(defaultValue="0") int page,
+        @RequestParam(defaultValue="5") int size,
+        @RequestParam(defaultValue="nombre") String order,
+        @RequestParam(defaultValue="true") boolean asc
+    ){
+        Page<Jugador> jugador=servicio.paginas(
+            filtro, disciplina, facultad, nacionalidad, PageRequest.of(page, size, Sort.by(order)));
+            if(!asc)
+                jugador=servicio.paginas(
+                    filtro, disciplina, facultad, nacionalidad, PageRequest.of(page, size, Sort.by(order).descending()));
+            return new ResponseEntity<Page<Jugador>>(jugador,HttpStatus.OK);
+    }
+
     //GET todas
     @RequestMapping
     public Iterable<Jugador> getJugadores(){
         return this.servicio.getJugadores();
-    }
-    //GET todas aplicando filtros
-    @RequestMapping(params={"nombre","disciplina","facultad","nacionalidad"})
-    public Iterable<Jugador> getJugadores(@RequestParam(name="nombre",required = false) String nombre, @RequestParam(name="disciplina",required = false) Disciplina disciplina, @RequestParam(name="facultad",required = false) Facultad facultad, @RequestParam(name="nacionalidad",required = false) Nacionalidad nacionalidad){
-        return this.servicio.getJugadores(nombre,disciplina,facultad,nacionalidad);
     }
     //GET 1
     @RequestMapping(value = "/{id}")
@@ -51,4 +68,3 @@ public class ControladorJugador {
     }
     
 }
-

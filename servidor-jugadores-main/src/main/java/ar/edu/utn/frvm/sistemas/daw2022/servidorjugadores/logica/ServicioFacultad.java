@@ -19,8 +19,8 @@ public class ServicioFacultad {
         this.repositorio = repositorio;
     }
 
-    public Page<Facultad> paginas(String filtro, String codigo, String codigoNumerico, Pageable pageable){
-        return repositorio.findByNombreIgnoreCaseContainingAndCodigoIgnoreCaseContainingAndCodigoNumericoIgnoreCaseContaining(filtro, codigo, codigoNumerico, pageable);
+    public Page<Facultad> paginas(String nombre, String codigo, String codigoNumerico, Pageable pageable){
+        return repositorio.findByNombreIgnoreCaseContainingAndCodigoIgnoreCaseContainingAndCodigoNumericoIgnoreCaseContaining(nombre, codigo, codigoNumerico, pageable);
     }
 
     public Facultad getFacultad(Integer id) {

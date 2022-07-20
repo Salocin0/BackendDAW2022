@@ -3,6 +3,12 @@ package ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.web;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.logica.ServicioDisciplina;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Disciplina;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -15,14 +21,29 @@ public class ControladorDisciplina {
     public ControladorDisciplina(ServicioDisciplina servicio) {
         this.servicio = servicio;
     }
+    
+    @RequestMapping("/disciplinasPage")
+    public ResponseEntity<Page<Disciplina>> paginas(
+        @RequestParam(defaultValue="") String nombre,
+        @RequestParam(defaultValue="") String codigo,
+        @RequestParam(defaultValue="") String descripcion,
+        @RequestParam(defaultValue="0") int page,
+        @RequestParam(defaultValue="5") int size,
+        @RequestParam(defaultValue="nombre") String order,
+        @RequestParam(defaultValue="true") boolean asc
+    ){
+        Page<Disciplina> disciplina=servicio.paginas(
+            nombre, codigo, descripcion, PageRequest.of(page, size, Sort.by(order)));
+            if(!asc)
+                disciplina=servicio.paginas(
+                    nombre, codigo, descripcion, PageRequest.of(page, size, Sort.by(order).descending()));
+            return new ResponseEntity<Page<Disciplina>>(disciplina,HttpStatus.OK);
+    }
+    
     //GET todas
     @RequestMapping
     public Iterable<Disciplina> getDisciplinas(){
         return this.servicio.getDisciplinas();
-    }
-    @RequestMapping(params={"filtro"})
-    public Iterable<Disciplina> getDisciplinas(@RequestParam(name="filtro") String filtro){
-        return this.servicio.getDisciplinas(filtro);
     }
     //GET 1
     @RequestMapping(value = "/{id}")

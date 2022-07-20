@@ -2,7 +2,8 @@ package ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.logica;
 
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Disciplina;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.persistencia.RepositorioDisciplina;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,12 +25,12 @@ public class ServicioDisciplina {
         return null;
     }
 
-    public Iterable<Disciplina> getDisciplinas(){
-        return this.repositorio.findAll();
+    public Page<Disciplina> paginas(String filtro, String codigo, String descripcion, Pageable pageable){
+        return repositorio.findByNombreIgnoreCaseContainingAndCodigoIgnoreCaseContainingAndDescripcionIgnoreCaseContaining(filtro, codigo, descripcion, pageable);
     }
 
-    public Iterable<Disciplina> getDisciplinas(String filtro){
-        return this.repositorio.findByNombreIgnoreCaseContaining(filtro);
+    public Iterable<Disciplina> getDisciplinas(){
+        return this.repositorio.findAll();
     }
 
     public Disciplina guardar(Disciplina f) {

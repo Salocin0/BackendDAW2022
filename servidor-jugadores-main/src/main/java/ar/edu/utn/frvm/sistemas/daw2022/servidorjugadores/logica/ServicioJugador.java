@@ -1,10 +1,9 @@
 package ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.logica;
 
-import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Disciplina;
-import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Facultad;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Jugador;
-import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Nacionalidad;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.persistencia.RepositorioJugador;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,12 +24,12 @@ public class ServicioJugador {
         return null;
     }
 
-    public Iterable<Jugador> getJugadores(){
-        return this.repositorio.findAll();
+    public Page<Jugador> paginas(String filtro, String filtroDisciplina, String filtroFacultad, String filtroNacionalidad, Pageable pageable){
+        return repositorio.findByNombreIgnoreCaseContainingOrApellidoIgnoreCaseContainingOrTelefonoIgnoreCaseContainingOrEmailIgnoreCaseContainingAndDisciplinaNombreIgnoreCaseContainingAndFacultadNombreIgnoreCaseContainingAndNacionalidadNombreIgnoreCaseContaining(filtro, filtro, filtro, filtro, filtroDisciplina, filtroFacultad, filtroNacionalidad, pageable);
     }
 
-    public Iterable<Jugador> getJugadores(String nombre, Disciplina disciplina, Facultad facultad, Nacionalidad nacionalidad){
-        return this.repositorio.findByNombreAndDisciplinaAndFacultadAndNacionalidad(nombre,disciplina,facultad,nacionalidad);
+    public Iterable<Jugador> getJugadores(){
+        return this.repositorio.findAll();
     }
 
     public Jugador guardar(Jugador f) {
