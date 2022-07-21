@@ -20,15 +20,14 @@ public class Jugador {
     @ManyToOne
     private Facultad facultad;
 
-    @ManyToOne
+    //@ManyToOne
     @NonNull
-    private Nacionalidad nacionalidad;
-
-    /* 
+    private String nacionalidad;
+    //private Nacionalidad nacionalidad;
+    
     @ManyToOne
     private Rol rol;
-    */
-
+    
     @ManyToOne
     private Disciplina disciplina;
 
@@ -59,6 +58,18 @@ public class Jugador {
 
     public String getFechaFormat(){
         return ((this.fechaNacimiento.getDate()+1) +"/"+(this.fechaNacimiento.getMonth()+1)+"/"+(this.fechaNacimiento.getYear()+1900));
+    }
+
+    public String getFechaFormat2(){
+        return ((this.fechaNacimiento.getYear()+1900)+"-"+(this.fechaNacimiento.getMonth()+1)+"-"+(this.fechaNacimiento.getDate()+1));
+    }
+
+    public String getFacultadNombrada(){
+        return this.facultad.getNombre();
+    }
+
+    public String getDisciplinaNombrada(){
+        return this.disciplina.getNombre();
     }
 
 }

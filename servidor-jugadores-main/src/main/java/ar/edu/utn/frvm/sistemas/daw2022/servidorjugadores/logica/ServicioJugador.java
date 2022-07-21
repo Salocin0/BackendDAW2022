@@ -25,7 +25,7 @@ public class ServicioJugador {
     }
 
     public Page<Jugador> paginas(String filtro, String filtroDisciplina, String filtroFacultad, String filtroNacionalidad, Pageable pageable){
-        return repositorio.findByNombreIgnoreCaseContainingOrApellidoIgnoreCaseContainingOrTelefonoIgnoreCaseContainingOrEmailIgnoreCaseContainingAndDisciplinaNombreIgnoreCaseContainingAndFacultadNombreIgnoreCaseContainingAndNacionalidadNombreIgnoreCaseContaining(filtro, filtro, filtro, filtro, filtroDisciplina, filtroFacultad, filtroNacionalidad, pageable);
+        return repositorio.findByNombreIgnoreCaseContainingOrApellidoIgnoreCaseContainingOrTelefonoIgnoreCaseContainingOrEmailIgnoreCaseContainingAndDisciplinaNombreIgnoreCaseContainingAndFacultadNombreIgnoreCaseContainingAndNacionalidadIgnoreCaseContaining(filtro, filtro, filtro, filtro, filtroDisciplina, filtroFacultad, filtroNacionalidad, pageable);
     }
 
     public Iterable<Jugador> getJugadores(){
