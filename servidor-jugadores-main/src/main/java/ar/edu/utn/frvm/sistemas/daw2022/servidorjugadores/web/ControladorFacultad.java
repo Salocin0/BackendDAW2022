@@ -1,5 +1,4 @@
 package ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.web;
-
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.logica.ServicioFacultad;
 import ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo.Facultad;
 import lombok.extern.slf4j.Slf4j;
@@ -9,36 +8,33 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/facultades")
 @RestController
 public class ControladorFacultad {
-
+    //atributos
     private ServicioFacultad servicio;
+    //constructor
     public ControladorFacultad(ServicioFacultad servicio) {
         this.servicio = servicio;
     }
-
+    //GET todas con paginacion
     @RequestMapping("/facultadesPage")
     public ResponseEntity<Page<Facultad>> paginas(
-        @RequestParam(defaultValue="") String nombre,
-        @RequestParam(defaultValue="") String codigo,
-        @RequestParam(defaultValue="") String codigoNumerico,
+        @RequestParam(defaultValue="") String filtro,
         @RequestParam(defaultValue="0") int page,
         @RequestParam(defaultValue="5") int size,
         @RequestParam(defaultValue="nombre") String order,
         @RequestParam(defaultValue="true") boolean asc
     ){
         Page<Facultad> facultades=servicio.paginas(
-            nombre, codigo, codigoNumerico, PageRequest.of(page, size, Sort.by(order)));
+            filtro, PageRequest.of(page, size, Sort.by(order)));
             if(!asc)
                 facultades=servicio.paginas(
-                    nombre, codigo, codigoNumerico, PageRequest.of(page, size, Sort.by(order).descending()));
+                    filtro, PageRequest.of(page, size, Sort.by(order).descending()));
             return new ResponseEntity<Page<Facultad>>(facultades,HttpStatus.OK);
     }
-
     //GET todas
     @RequestMapping
     public Iterable<Facultad> getFacultades(){
@@ -64,5 +60,4 @@ public class ControladorFacultad {
     public void eliminar(@PathVariable("id") Integer id){
         this.servicio.eliminar(id);
     }
-    
 }

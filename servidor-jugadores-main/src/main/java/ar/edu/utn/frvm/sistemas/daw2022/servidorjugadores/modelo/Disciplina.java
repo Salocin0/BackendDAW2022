@@ -1,15 +1,13 @@
 package ar.edu.utn.frvm.sistemas.daw2022.servidorjugadores.modelo;
-
 import lombok.*;
-
 import javax.persistence.*;
-
 @Entity
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 public class Disciplina{
+    //atributos
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Disciplina_id_seq")
     @SequenceGenerator(name = "Disciplina_id_seq", sequenceName = "Disciplina_id_seq", allocationSize = 1)
@@ -21,4 +19,3 @@ public class Disciplina{
     @NonNull
     private String descripcion;
 }
-
