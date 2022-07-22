@@ -22,10 +22,10 @@ public class ControladorJugador {
     // GET todas con paginacion
     @RequestMapping("/jugadoresPage")
     public ResponseEntity<Page<Jugador>> paginas(
-            @RequestParam(defaultValue = "", required = false) String filtro,
-            @RequestParam(defaultValue = "", required = false) String disciplina,
-            @RequestParam(defaultValue = "", required = false) String facultad,
-            @RequestParam(defaultValue = "", required = false) String nacionalidad,
+            @RequestParam(required = false) String filtro,
+            @RequestParam(required = false) String disciplina,
+            @RequestParam(required = false) String facultad,
+            @RequestParam(required = false) String nacionalidad,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "nombre") String order,
@@ -34,8 +34,7 @@ public class ControladorJugador {
                 filtro, disciplina, facultad, nacionalidad, PageRequest.of(page, size, Sort.by(order)));
         if (!asc)
             jugador = servicio.paginas(
-                    filtro, disciplina, facultad, nacionalidad,
-                    PageRequest.of(page, size, Sort.by(order).descending()));
+                filtro, disciplina, facultad, nacionalidad, PageRequest.of(page, size, Sort.by(order).descending()));
         return new ResponseEntity<Page<Jugador>>(jugador, HttpStatus.OK);
     }
     // GET todas

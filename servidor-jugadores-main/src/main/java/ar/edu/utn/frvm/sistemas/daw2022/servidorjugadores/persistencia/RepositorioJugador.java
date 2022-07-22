@@ -7,5 +7,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RepositorioJugador extends PagingAndSortingRepository<Jugador, Integer> {
     //metodo de busqueda
-    Page<Jugador> findByNombreIgnoreCaseContainingOrApellidoIgnoreCaseContainingOrTelefonoIgnoreCaseContainingOrEmailIgnoreCaseContainingAndDisciplinaNombreIgnoreCaseContainingAndFacultadNombreIgnoreCaseContainingAndNacionalidadIgnoreCaseContaining(String nombre,String apellido,String telefono,String email, String filtroDisciplina, String filtroFacultad, String filtroNacionalidad,Pageable pageable);
+    //Page<Jugador> findByDisciplinaNombreIgnoreCaseContainingOrFacultadNombreIgnoreCaseContainingOrNacionalidadIgnoreCaseContainingOrNombreIgnoreCaseContainingOrApellidoIgnoreCaseContainingOrTelefonoIgnoreCaseContainingOrEmailIgnoreCaseContaining(String filtroDisciplina, String filtroFacultad, String filtroNacionalidad, String nombre, String apellido,String telefono,String email,Pageable pageable);
+    Page<Jugador> findByNombreIgnoreCaseContainingOrApellidoIgnoreCaseContainingOrTelefonoIgnoreCaseContainingOrEmailIgnoreCaseContaining(String nombre ,String apellido, String telefono, String email, Pageable pageable);
+    
+    Page<Jugador> findByFacultadNombreIgnoreCaseContainingAndDisciplinaNombreIgnoreCaseContainingAndNacionalidadIgnoreCaseContaining(String facultadFiltro,String DisciplinaFiltro,String nacionalidadFiltro, Pageable pageable);
+    //Page<Jugador> findByDisciplinaNombreAndFacultadNombreAndNacionalidadOrNombreOrApellidoOrTelefonoOrEmail(String filtroDisciplina, String filtroFacultad, String filtroNacionalidad, String nombre, String apellido,String telefono,String email,Pageable pageable);
 }

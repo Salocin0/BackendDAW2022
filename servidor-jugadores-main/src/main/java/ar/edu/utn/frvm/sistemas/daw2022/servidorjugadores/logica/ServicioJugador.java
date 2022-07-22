@@ -23,7 +23,25 @@ public class ServicioJugador {
     }
     //GET todas + paginacion
     public Page<Jugador> paginas(String filtro, String filtroDisciplina, String filtroFacultad, String filtroNacionalidad, Pageable pageable){
-        return repositorio.findByNombreIgnoreCaseContainingOrApellidoIgnoreCaseContainingOrTelefonoIgnoreCaseContainingOrEmailIgnoreCaseContainingAndDisciplinaNombreIgnoreCaseContainingAndFacultadNombreIgnoreCaseContainingAndNacionalidadIgnoreCaseContaining(filtro, filtro, filtro, filtro, filtroDisciplina, filtroFacultad, filtroNacionalidad, pageable);
+        Page<Jugador> p2 = repositorio.findByNombreIgnoreCaseContainingOrApellidoIgnoreCaseContainingOrTelefonoIgnoreCaseContainingOrEmailIgnoreCaseContaining(filtro,filtro,filtro,filtro,pageable);
+        Page<Jugador> p1 = repositorio.findByFacultadNombreIgnoreCaseContainingAndDisciplinaNombreIgnoreCaseContainingAndNacionalidadIgnoreCaseContaining(filtroFacultad,filtroDisciplina,filtroNacionalidad,pageable);
+        System.out.println(p1.getContent().size());
+        System.out.println(p2.getContent().size());
+        try {
+            for(int i=0;i<p1.getContent().size();i++){
+                if(!p2.getContent().contains(p1.getContent().get(i))){
+                    p1.getContent().remove(p1.getContent().get(i));
+                }
+            }
+            return p1;
+        } catch (Exception e) {
+            for(int i=0;i<p2.getContent().size();i++){
+                if(!p1.getContent().contains(p2.getContent().get(i))){
+                    p1.getContent().remove(p2.getContent().get(i));
+                }
+            }
+            return p2;
+        }
     }
     //GET todas
     public Iterable<Jugador> getJugadores(){
